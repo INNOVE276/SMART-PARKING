@@ -1,0 +1,53 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fbackground%2F&psig=AOvVaw3E4rIfWUom_KGfJwuAXA8v&ust=1738520574932000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCNiltfyLo4sDFQAAAAAdAAAAABAE');
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+}
+
+
+h1, p {
+    color: rgb(234, 127, 127);
+}
+
+.parking-lot {
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.parking-spot {
+    width: 100px;
+    height: 50px;
+    background-color: green;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.occupied {
+    background-color: red;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}

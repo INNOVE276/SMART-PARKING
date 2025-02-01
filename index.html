@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Parking Space Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url("https://newsmeter.in/h-upload/2024/06/23/374654-hyderabad-parking.webp");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .parking-lot {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .parking-spot {
+            width: 100px;
+            height: 50px;
+            background-color: green;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .occupied {
+            background-color: red;
+        }
+
+        /* Popup Modal */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 300px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .popup img {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 10px;
+        }
+
+        .popup button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .popup button:hover {
+            background-color: #218838;
+        }
+
+        /* Blur effect when popup is active */
+        .blur {
+            filter: blur(5px);
+            pointer-events: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Parking Space Finder</h1>
+    <p>Click on a parking spot to reserve it.</p>
+
+    <div class="parking-lot" id="parkingLot">
+        <!-- Parking spots will be generated here -->
+    </div>
+    
+    <br>
+    <button onclick="showLocation()">Show Way to Location</button>
+
+    <!-- Payment Section -->
+    <div id="paymentSection" style="display: none;">
+        <p>Complete Payment to Confirm Reservation</p>
+        <button onclick="showPopup()">Pay Now</button>
+    </div>
+
+    <!-- Popup Modal -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup">
+            <h2>Scan to Pay</h2>
+            <img src="your_qr_code_image.png" alt="Payment QR Code">
+            <p>Scan using your preferred payment app.</p>
+            <button onclick="completePayment()">Payment Completed</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const parkingLot = document.getElementById("parkingLot");
+            const totalSpots = 12;
+
+            for (let i = 1; i <= totalSpots; i++) {
+                let spot = document.createElement("div");
+                spot.classList.add("parking-spot");
+                spot.textContent = "Spot " + i;
+                spot.addEventListener("click", function() {
+                    if (!spot.classList.contains("occupied")) {
+                        document.getElementById("paymentSection").style.display = "block";
+                        spotToReserve = spot;
+                    }
+                });
+                parkingLot.appendChild(spot);
+            }
+        });
+
+        let spotToReserve;
+
+        function showPopup() {
+            document.getElementById("popupOverlay").style.display = "flex";
+         
+        }
+
+        function completePayment() {
+            if (spotToReserve) {
+                spotToReserve.classList.add("occupied");
+                spotToReserve.textContent = "Reserved";
+                document.getElementById("paymentSection").style.display = "none";
+                spotToReserve = null;
+            }
+
+            document.getElementById("popupOverlay").style.display = "none";
+            document.body.classList.remove("blur");
+        }
+
+        function showLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    window.open(`https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`, '_blank');
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+    </script>
+
+</body>
+</html>
